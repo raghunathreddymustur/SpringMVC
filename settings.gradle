@@ -1,3 +1,4 @@
 rootProject.name = 'SpringMVC'
 include 'MVCPattern'
+include 'MVCInAction'
 
