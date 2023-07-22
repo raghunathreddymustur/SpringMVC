@@ -372,3 +372,136 @@ How is an incoming request mapped to a controller and mapped to a method
         }
        }
     ```
+   
+parameter types for a controller method
+-----------------------------
+1. `WebRequest, NativeWebRequest` – Access to HTTP request details, parameters, also
+   request and session attributes, without direct use of the Servlet API
+2. `javax.servlet.ServletRequest` - object to provide client request information,
+   allows access to parameters, attributes and other request details without direct use of
+   Spring Interfaces
+3.` javax.servlet.ServletResponse` – object created by servlet container, passed to
+   service method of servlet, used by servlet to send a response to the client
+3. `javax.servlet.http.HttpSession` – allows access to session information and
+   attributes, also enforces HTTP session for request
+4. `javax.servlet.http.PushBuilder` - Servlet 4.0 push builder API for
+   programmatic HTTP/2 resource pushes, allows resources to be delivered in advance by
+   the server, resulting in a faster load time
+5. `java.security.Principal` - currently authenticated user
+6. `HttpMethod` – HTTP method used for request, one of GET, HEAD, POST, PUT,
+   PATCH, DELETE, OPTIONS, TRACE
+7. `java.util.Locale `- request locale, determined by the most specific
+   LocaleResolver available
+8.` java.util.TimeZone + java.time.ZoneId` - time zone associated with the
+   current request, as determined by a LocaleContextResolver.
+8. `java.io.InputStream, java.io.Reader` – allows access to raw request body as
+   exposed by the Servlet API
+9. `java.io.OutputStream, java.io.Writer `– allows to create raw response as
+   exposed by the Servlet API
+10. `HttpEntity<B> `- container object that exposes request headers and body, body is
+    converted with usage of HttpMessageConverter
+11. j`ava.util.Map, org.springframework.ui.Model,
+    org.springframework.ui.ModelMap` – used to expose data to templates as part of
+    view rendering
+12. `RedirectAttributes` – specify attributes to use in case of redirect, regular
+    attributes will be added to query string and flash attributes will be kept temporarily
+    until end of request, flash attributes are kept typically in the session and are removed
+    immediately after request is completed
+13. `Errors, BindingResult `– used to gain access to form validation and binding data
+    results, can be used with @ModelAttribute, @RequestBody or @RequestPart
+    argument, Errors and BindingResult argument must be declared immediately
+    after the validated method argument
+14. `SessionStatus + class-level @SessionAttributes` – useful for multi step form
+    processing, @SessionAttributes allows to keep @ModelAttribute objects
+    between requests and SessionStatus allows to clean session variables when form
+    processing is done
+15. `UriComponentsBuilder` – used to build URLs relative to current scheme, host, port,
+    contextPath etc.
+16. `Any other argument `– if a method argument is not matched against types defined
+    before, and it is a simply type, it is treated as` @RequestParam`, if it is a complex
+    type, it is treated as `@ModelAttribute`
+17. [Source Code](UsingControllerParameters)
+
+Annotations might you use on a controller method parameter
+------------------
+1. `@RequestParam` - access to the Servlet request parameters, including multipart files,
+   parameters will be automatically converted to declared method argument types,
+   parameters can be made optional with usage of required attribute or Optional from
+   Java 8, for optional request parameters defaultValue can be set as well
+2. `@PathVariable` – access to URI template variables, parameters can be made optional
+   with usage of required attribute or Optional from Java 8
+3. `@MatrixVariable` - access to name-value pairs in URI path segments as described in
+   RFC 3986, allows mapping variables from requests like
+   /employees/id=1;name=John
+4. `@CookieValue` - bind the value of an HTTP cookie to a method argument in a
+   controller, you can bind against simple types or Cookie class, cookie can be set with
+   usage of HttpServletResponse, cookie can be set as required or optional via
+   required attribute or with Optional from Java 8, when using required attribute,
+   defaultValue can be used as well
+5.` @RequestHeader `– access request header values or all header key and values when
+   binding against a Map
+5. `@RequestBody` – allows access to HTTP request body, content will be converted to
+   method controller type by HttpMessageConverter, request body can be made
+   optional with usage of required attribute or Java 8 Optional, can be used with
+   @Valid for bean validation
+6. `@RequestPart `– allows to bind multipart HTTP requests to method parameter,
+   content will be converted to method controller type, request part can be made
+   optional with usage of required attribute or Java 8 Optional, can be used with
+   @Valid for bean validation
+7. `@RequestAttribute` – allows access to HTTP request attributes populated on serverside during HTTP request by filter or interceptor, can be made optional with usage of
+   required attribute or Java 8 Optional
+8. `@ModelAttribute` - access to an existing attribute in the model (instantiated if not
+   present) with data binding and validation applied
+9. @SessionAttribute - access to pre-existing session attributes that are managed
+   globally, can be made optional with usage of required attribute or Java 8 Optional
+10. @SessionAttributes - used to store model attributes in the HTTP Servlet session
+    between requests, useful for multi step from processing
+11. [Source Code](ControllerParameterAnnotations/src/main/java/com/raghu/controller/para/annotations/controller)
+
+Return types of a controller method
+-------------
+1. `@ResponseBody` – binds method return value to web response body, complex types
+   will be converted with usage of HttpMessageConverter
+2. `HttpEntity<B>, ResponseEntity<B> `- allows to specify full response with headers
+   and body, ResponseEntity<B> additionally allows you to specify HTTP status code
+3. `HttpHeaders` – allows to return response only with headers, without body
+4. `String` – allows to return logical name of view to use when rendering response, view
+   will be resolved by ViewResolver, usually used with implicit model through
+   @ModelAttribute parameters or explicit model by declaring Model method
+   parameter
+5. `View` – allows to return instance of view, like JstlView, ThymeleafView,
+   FreeMarkerView, usually used with implicit model through @ModelAttribute
+   parameters or explicit model by declaring Model method parameter
+6. `Map, Model` – allows you to specify attributes to be added to the implicit model, with
+   the view name implicitly determined through a RequestToViewNameTranslator
+7. `@ModelAttribute` – allows you to specify an attribute to be added to the model, with
+   the view name implicitly determined through a RequestToViewNameTranslator
+8. `ModelAndView `- view and model attributes to use and, optionally, a response status,
+   view can be specified by logical name or instance of view can be passed, model can be
+   specified as named object or Map
+9. `void` – method that returns void can correctly handle request by using
+   ServletResponse or OutputStream as parameter, or @ResponseStatus
+   annotation, if none of previous are used RequestToViewNameTranslator will
+   identify view based on request, void return type can also indicate “no response body”
+   for REST controllers
+10. `DeferredResult<V> `- allows to specify result for controller asynchronously from
+    different Thread or as result of some event callback, part of integration with Servlet
+    3.0 asynchronous request
+11. `Callable<V>` - allows to produce return value asynchronously in a Spring MVCmanaged thread
+12. `ListenableFuture<V>, CompletableFuture<V>, CompletionStage<V>` - allows
+    to return set of chained, asynchronous operations, with callbacks and transformations
+13. `ResponseBodyEmitter, SseEmitter` – allows to send objects in stream
+    asynchronously, objects will be converted with usage of HttpMessageConverter, can
+    be used with ResponseEntity, both classes have the same goal, however
+    SseEmitter uses Server-Sent Events standardized with W3C SSE specification
+14. `StreamingResponseBody `– allows to write to the response OutputStream
+    asynchronously
+15. `Reactive types` – allows to use Reactive types for streaming scenarios, handled by
+    ReactiveAdapterRegistry
+16. [Source Code](ControllerReturnTypes/src/main/java/com/raghu/controller/return/types/controller)
+
+
+
+
+
+

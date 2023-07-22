@@ -1,0 +1,28 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <form method="post" action="#" th:object="${country}" th:action="@{/actionP/address/step3}">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="country">Country</label>
+                        <input type="text" class="form-control" id="country" th:field="*{country}"
+                               th:classappend="${#fields.hasErrors('country')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{country}"></div>
+                    </div>
+                </div>
+
+                <a th:href="@{/actionP/address/step2}">Go back</a>
+
+                <button type="submit" class="btn btn-primary">Save Address</button>
+            </form>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

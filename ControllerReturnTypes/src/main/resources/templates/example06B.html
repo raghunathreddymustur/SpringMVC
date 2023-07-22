@@ -1,0 +1,41 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Names</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <ul th:each="name: ${names}">
+                        <li th:text="${name}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Cities</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <ul th:each="city: ${cities}">
+                        <li th:text="${city}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

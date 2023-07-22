@@ -1,0 +1,51 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div th:object="${address}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First Name</label>
+                        <div id="firstName" th:text="*{firstName}"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last Name</label>
+                        <div id="lastName" th:text="*{lastName}"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="streetAddress">Street Address</label>
+                    <div id="streetAddress" th:text="*{streetAddress}"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="city">City</label>
+                        <div id="city" th:text="*{city}"></div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="stateCode">State</label>
+                        <div id="stateCode" th:text="*{stateCode}"></div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="zipCode">Zip</label>
+                        <div id="zipCode" th:text="*{zipCode}"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="country">Country</label>
+                        <div id="country" th:text="*{country}"></div>
+                    </div>
+                </div>
+                <div class="alert alert-primary" role="alert">
+                    Address processed correctly.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

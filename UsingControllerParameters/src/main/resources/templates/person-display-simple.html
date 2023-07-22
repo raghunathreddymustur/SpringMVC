@@ -1,0 +1,33 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-4" th:object="${person}">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p class="card-text">
+                                First Name: <span th:text="${person.firstName}"></span><br/>
+                                Last Name: <span th:text="${person.lastName}"></span><br/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a th:href="@{/actionS/simpleForm}">Go back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

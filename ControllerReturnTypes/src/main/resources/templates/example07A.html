@@ -1,0 +1,34 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form method="post" action="#" th:object="${person}">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" disabled
+                                       th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{firstName}"></div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" disabled
+                                       th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{lastName}"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html th:replace="~{layout :: layout(~{::main})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Addresses List</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" th:if="${addresses.isEmpty()}">
+                    <div class="alert alert-warning" role="alert">
+                        No addresses defined yet.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4" th:each="address : ${addresses}">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p class="card-text">
+                                First Name: <span th:text="${address.firstName}"></span><br/>
+                                Last Name: <span th:text="${address.lastName}"></span><br/>
+                                Street Address: <span th:text="${address.streetAddress}"></span><br/>
+                                City: <span th:text="${address.city}"></span><br/>
+                                State Code: <span th:text="${address.stateCode}"></span><br/>
+                                Zip Code: <span th:text="${address.zipCode}"></span><br/>
+                                Country: <span th:text="${address.country}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a th:href="@{/actionP/address/step1}">Add new address</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+</body>
+</html>
